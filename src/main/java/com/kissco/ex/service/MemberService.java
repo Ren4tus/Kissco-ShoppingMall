@@ -1,8 +1,10 @@
 package com.kissco.ex.service;
 
 import com.kissco.ex.domain.Member;
+import com.kissco.ex.mapper.UserMapper;
 import com.kissco.ex.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,9 +13,12 @@ import java.util.List;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
+@Slf4j
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final UserMapper memberMapper;
+
 
     @Transactional
     public Long join(Member member) {
@@ -37,4 +42,5 @@ public class MemberService {
     public Member findOne(Long memberId) {
         return memberRepository.findOne(memberId);
     }
+
 }

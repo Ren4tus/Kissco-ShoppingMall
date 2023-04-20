@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kissco.ex.mapper.UserMapper">
+   
+   <resultMap id="userMap" type="UserVO">
+      <id property="id" column="id"/>
+      <result property="password" column="password"/>
+      <result property="enabled" column="enabled"/>
+      <collection property="authorityList" resultMap="authMap"></collection>   
+   </resultMap>
+    
+    <resultMap id="authMap" type="AuthorityVO">
+       <result property="userNo" column="userNo"/>
+       <result property="authority" column="authority"/>   
+   </resultMap>
+    
+<!--    <select id="getMember" resultMap="memberMap">-->
+<!--       <![CDATA[-->
+<!--           select * from members , authorities -->
+<!--      where members.no = authorities.member_no and members.id= #{id}-->
+<!--       ]]>-->
+<!--    </select>-->
+
+<!--    <insert id="insertMember">-->
+<!--        <![CDATA[-->
+<!--            INSERT INTO USERS (NO, ADDRESS_NO, ID, PASSWORD, NAME, PHONE, EMAIL)-->
+<!--            VALUES (user_no_seq.nextval, #{addressNo}, #{id}, #{password}, #{name}, #{phone}, #{email})-->
+<!--        ]]>-->
+<!--    </insert>-->
+
+</mapper>

@@ -8,6 +8,7 @@ import javax.persistence.Embeddable;
 @Getter
 public class Address {
 
+    private int no;
     private String sido_name;
     private String sigungu_name;
     private String dong_name;

@@ -4,6 +4,7 @@ import com.kissco.ex.domain.Address;
 import com.kissco.ex.domain.Member;
 import com.kissco.ex.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,17 +16,19 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
+@Slf4j
+// @RequestMapping("member")
 public class MemberController {
     private final MemberService memberService;
     @GetMapping(value = "/members/new")
     public String createForm(Model model) {
         model.addAttribute("memberForm", new MemberForm());
-        return "members/createMemberForm";
+        return "signup_view";
     }
     @PostMapping(value = "/members/new")
     public String create(@Valid MemberForm form, BindingResult result) {
         if (result.hasErrors()) {
-            return "members/createMemberForm";
+            return "signup_view";
         }
         Address address = new Address(form.getCity(), form.getStreet(),
                 form.getZipcode());

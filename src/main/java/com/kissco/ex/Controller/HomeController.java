@@ -9,7 +9,7 @@ public class HomeController {
     @RequestMapping("/")
     public String home() {
         log.info("home controller");
-        return "home";
+        return "/ongoing/home";
     }
 
     @RequestMapping("/test")
