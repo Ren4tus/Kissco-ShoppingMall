@@ -1,11 +1,13 @@
 package com.kissco.ex.domain.item;
 
 import com.kissco.ex.domain.Category;
+import com.kissco.ex.domain.ItemImage;
 import com.kissco.ex.execption.NotEnoughStockException;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,10 +24,14 @@ public abstract class Item {
     private String name;
     private int price;
     private int stockQuantity;
+    private String Content;
+    @Column(name = "reg_date")
+    private LocalDateTime regDate;
 
     @ManyToMany(mappedBy = "items")
     private List<Category> categories = new ArrayList<Category>();
-
+    @OneToMany(mappedBy = "item")
+    private List<ItemImage> images = new ArrayList<ItemImage>();
     //==비즈니스 로직==//
 
     /**

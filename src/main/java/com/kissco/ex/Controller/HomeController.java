@@ -11,4 +11,10 @@ public class HomeController {
         log.info("home controller");
         return "home";
     }
+
+    @RequestMapping("/test")
+    public String test() {
+        log.info("test home");
+        return "ongoing/homeIndex";
+    }
 }

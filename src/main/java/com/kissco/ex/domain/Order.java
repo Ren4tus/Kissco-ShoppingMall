@@ -34,6 +34,14 @@ public class Order {
     @JoinColumn(name = "delivery_id")
     private Delivery delivery;
 
+    @OneToOne(fetch = LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "exchange_id")
+    private Exchange exchange;
+
+    @OneToOne(fetch = LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "refund_id")
+    private Refund refund;
+
     private LocalDateTime orderDate;
 
     @Enumerated(EnumType.STRING)
