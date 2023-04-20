@@ -192,7 +192,7 @@ CREATE TABLE USERS
     no	       number		            NOT NULL,
     address_no number		            NOT NULL,
     id	       varchar2(20)		        NOT NULL,
-    password   varchar2(30)		        NOT NULL,
+    password   varchar2(300)		    NOT NULL,
     name	   varchar2(10)		        NOT NULL,
     email	   varchar2(80)		        NOT NULL,
     phone	   varchar2(11)		        NOT NULL,
