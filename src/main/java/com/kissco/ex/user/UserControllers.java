@@ -12,8 +12,8 @@ import javax.validation.Valid;
 
 @RequiredArgsConstructor
 @Controller
-@RequestMapping("/user")
-public class UserController {
+@RequestMapping("/users")
+public class UserControllers {
 
     private final UserService userService;
 

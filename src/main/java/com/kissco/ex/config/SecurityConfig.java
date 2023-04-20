@@ -1,4 +1,4 @@
-package com.kissco.ex;
+package com.kissco.ex.config;
 
 import com.kissco.ex.user.UserSecurityService;
 import lombok.RequiredArgsConstructor;
@@ -34,12 +34,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
+        http.csrf().disable();
+
         // 로그인 하지 않아도 모든 페이지 접근 허용
         http.authorizeRequests().antMatchers("/**").permitAll()
                 .and()
                 // CSRF에서 H2를 제외
-                .csrf().ignoringAntMatchers("/h2-console/**")
-                .and()
+//                .csrf().ignoringAntMatchers("/h2-console/**")
+//                .and()
                 // H2 콘솔이 정상적으로 출력되기 위해 X-Frame-Options을 SAMEORIGIN으로 설정
                 .headers()
                 .addHeaderWriter(new XFrameOptionsHeaderWriter(

@@ -1,4 +1,4 @@
-package com.kissco.ex;
+package com.kissco.ex.config;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
