@@ -13,10 +13,10 @@ public class MemberRepository {
 
     private final EntityManager em;
 
-    public Long save(Member member) {
-        em.persist(member);
-        return member.getId();
-    }
+//    public Long save(Member member) {
+//        em.persist(member);
+//        return member.getId();
+//    }
 
     public Member findOne(Long id) {
         return em.find(Member.class, id);

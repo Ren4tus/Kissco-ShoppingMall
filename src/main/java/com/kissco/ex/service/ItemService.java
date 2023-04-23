@@ -5,8 +5,11 @@ import com.kissco.ex.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @Transactional(readOnly = true)
@@ -16,8 +19,20 @@ public class ItemService {
     private final ItemRepository itemRepository;
 
     @Transactional
-    public void saveItem(Item item) {
+    public void saveItem(Item item, MultipartFile file) throws Exception{
         itemRepository.save(item);
+//        MultipartFile file =
+        if(!file.isEmpty()) {
+//            String projectPath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\files";
+//            String projectPath = System.getProperty("user.dir") + "C:/Users/lys/Documents/WEB/files";
+            String projectPath = System.getProperty("user.home") + "/Documents/WEB/files";
+            UUID uuid = UUID.randomUUID();
+            String fileName = uuid + "_" + file.getOriginalFilename();
+            File saveFile = new File(projectPath, fileName);
+
+            file.transferTo(saveFile);
+            item.setImagePath(fileName);
+        }
     }
     @Transactional
     public void updateItem(Long id, String name, int price, int stockQuantity)

@@ -1,20 +1,23 @@
 package com.kissco.ex.domain.item;
 
+import com.kissco.ex.Controller.dto.ItemForm;
 import com.kissco.ex.domain.Category;
 import com.kissco.ex.domain.ItemImage;
 import com.kissco.ex.execption.NotEnoughStockException;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-
+@Getter @Setter
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "dtype")
-@Getter @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@SuperBuilder
 public abstract class Item {
 
     @Id @GeneratedValue
@@ -24,14 +27,16 @@ public abstract class Item {
     private String name;
     private int price;
     private int stockQuantity;
-    private String Content;
+    private String content;
+
     @Column(name = "reg_date")
     private LocalDateTime regDate;
+    private String imagePath;
 
+//    @OneToMany(mappedBy = "item")
+//    private List<ItemImage> images = new ArrayList<ItemImage>();
     @ManyToMany(mappedBy = "items")
     private List<Category> categories = new ArrayList<Category>();
-    @OneToMany(mappedBy = "item")
-    private List<ItemImage> images = new ArrayList<ItemImage>();
     //==비즈니스 로직==//
 
     /**

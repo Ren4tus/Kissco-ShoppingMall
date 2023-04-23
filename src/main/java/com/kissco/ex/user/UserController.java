@@ -19,7 +19,7 @@ public class UserController {
 
     @GetMapping("/signup")
     public String signup(UserCreateForm userCreateForm) {
-        return "signup_form";
+        return "ssb/signup_form";
     }
 
     @PostMapping("/signup")

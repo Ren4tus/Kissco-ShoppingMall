@@ -2,22 +2,36 @@
 <html lagn="ko">
 <head>
     <!-- Required meta tags -->
+    <meta name="_csrf" th:content="${_csrf.token}">
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!--    <link href="/css/jumbotron-narrow.css" rel="stylesheet">-->
     <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css" integrity="sha384-
+ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" th:href="@{/bootstrap.min.css}">
     <!-- sbb CSS -->
     <link rel="stylesheet" type="text/css" th:href="@{/style.css}">
+    <link href="css/styles2.css" rel="stylesheet" />
+    <!-- Custom styles for this template -->
+
     <title>게시판</title>
 </head>
 <body>
 <!-- 네비게이션바 -->
 <nav th:replace="navbar :: navbarFragment"></nav>
 <!-- 기본 템플릿 안에 삽입될 내용 Start -->
+<th:block layout:fragment="header"></th:block>
 <th:block layout:fragment="content"></th:block>
 <!-- 기본 템플릿 안에 삽입될 내용 End -->
 <!-- Bootstrap JS -->
 <script th:src="@{/bootstrap.min.js}"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <!-- 자바스크립트 Start -->
 <th:block layout:fragment="script"></th:block>
 <!-- 자바스크립트 End -->

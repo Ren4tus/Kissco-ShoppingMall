@@ -1,0 +1,56 @@
+<html layout:decorate="~{layout}">
+<head>
+  <title>Kissco Shop Detail</title>
+  <link href="css/styles2.css" rel="stylesheet" />
+</head>
+<!-- Product section-->
+<section class="py-5" layout:fragment="content">
+  <div class="container px-4 px-lg-5 my-5">
+    <div class="row gx-4 gx-lg-5 align-items-center">
+      <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" th:src="@{'/files/' + ${item.imageName}}" alt="..." /></div>
+      <div class="col-md-6">
+<!--        <div class="small mb-1" th:text="|ISBN: ${item.isbn}|"></div>-->
+        <h1 class="display-5 fw-bolder" th:text="${item.name}"></h1>
+        <div class="fs-5 mb-5">
+<!--          <span class="text-decoration-line-through" th:text="|₩${item.price}|">\20000</span>-->
+          <span th:text="|₩${item.price}|"></span>
+        </div>
+        <p class="lead" th:text="${item.content}"></p>
+        <div class="d-flex">
+          <input class="form-control text-center me-3" id="inputQuantity" type="num" value="1" style="max-width: 3rem" />
+          <button class="btn btn-outline-dark flex-shrink-0" id="addToCartButton" type="button">
+            <i class="bi-cart-fill me-1"></i>
+            Add to cart
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script th:inline="javascript">
+    $(document).ready(function() {
+        $('#addToCartButton').click(function() {
+            console.log('addToCartButton clicked');
+            let quantity = $('#inputQuantity').val(); // 입력된 수량을 가져옴
+            let itemId = [[${item.id}]];
+            var header = $("meta[name='_csrf_header']").attr('content');
+            var token = $("meta[name='_csrf']").attr('content');
+            $.ajax({
+                url: '/calculateCart',
+                beforeSend: function(xhr){
+                    xhr.setRequestHeader(header, token);
+                },
+                type: 'POST',
+                data: { quantity: quantity, itemId : itemId},
+                success: function(response) {
+                    window.location.href = '/orders';
+                },
+                error: function(xhr) {
+                    // AJAX 요청이 실패하면 오류를 처리하는 코드
+                }
+            });
+        });
+    });
+</script>
+</section>
+</html>

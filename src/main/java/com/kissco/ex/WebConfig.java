@@ -8,10 +8,14 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 @EnableWebMvc
 public class WebConfig implements WebMvcConfigurer {
-
+    String projectPath = "file:" + System.getProperty("user.home") + "/Documents/WEB/files/";
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        projectPath = projectPath.replace("\\", "/");
+        System.out.println("projectPath = " + projectPath);
         registry.addResourceHandler("/**", "/files/**")
-                .addResourceLocations("classpath:/static/", "file:C:/Users/lys/Documents/WEB/files/");
+        .addResourceLocations("classpath:/static/", projectPath);
+
     }
+
 }

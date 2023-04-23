@@ -5,11 +5,15 @@ import com.kissco.ex.domain.item.Item;
 import com.kissco.ex.repository.ItemRepository;
 import com.kissco.ex.repository.MemberRepository;
 import com.kissco.ex.repository.OrderRepository;
+import com.kissco.ex.user.SiteUser;
+import com.kissco.ex.user.SiteUserDto;
+import com.kissco.ex.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -18,21 +22,39 @@ public class OrderService {
     private final MemberRepository memberRepository;
     private final OrderRepository orderRepository;
     private final ItemRepository itemRepository;
+    private final UserRepository userRepository;
     /** 주문 */
+//    @Transactional
+//    public Long order(Long memberId, Long itemId, int count) {
+//        //엔티티 조회
+//        Member member = memberRepository.findOne(memberId);
+//        Item item = itemRepository.findOne(itemId);
+//        //배송정보 생성
+//        Delivery delivery = new Delivery();
+//        delivery.setAddress(member.getAddress());
+//        delivery.setStatus(DeliveryStatus.READY);
+//        //주문상품 생성
+//        OrderItem orderItem = OrderItem.createOrderItem(item, item.getPrice(),
+//                count);
+//        //주문 생성
+//        Order order = Order.createOrder(member, delivery, orderItem);
+//        //주문 저장
+//        orderRepository.save(order);
+//        return order.getId();
+//    }
     @Transactional
-    public Long order(Long memberId, Long itemId, int count) {
+    public Long orderItem(SiteUserDto user, Long itemId, int count) {
         //엔티티 조회
-        Member member = memberRepository.findOne(memberId);
+        Optional<SiteUser> userData = userRepository.findByusername(user.getUsername());
         Item item = itemRepository.findOne(itemId);
         //배송정보 생성
         Delivery delivery = new Delivery();
-        delivery.setAddress(member.getAddress());
+        delivery.setAddress(userData.get().getAddress());
         delivery.setStatus(DeliveryStatus.READY);
         //주문상품 생성
-        OrderItem orderItem = OrderItem.createOrderItem(item, item.getPrice(),
-                count);
+        OrderItem orderItem = OrderItem.createOrderItem(item, item.getPrice(), count);
         //주문 생성
-        Order order = Order.createOrder(member, delivery, orderItem);
+        Order order = Order.createOrder(userData.get(), delivery, orderItem);
         //주문 저장
         orderRepository.save(order);
         return order.getId();
