@@ -43,7 +43,7 @@ public class OrderService {
 //        return order.getId();
 //    }
     @Transactional
-    public Long orderItem(SiteUserDto user, Long itemId, int count) {
+    public Long orderItem(SiteUserDto user, Long itemId, int amount) {
         //엔티티 조회
         Optional<SiteUser> userData = userRepository.findByusername(user.getUsername());
         Item item = itemRepository.findOne(itemId);
@@ -52,9 +52,33 @@ public class OrderService {
         delivery.setAddress(userData.get().getAddress());
         delivery.setStatus(DeliveryStatus.READY);
         //주문상품 생성
-        OrderItem orderItem = OrderItem.createOrderItem(item, item.getPrice(), count);
+        OrderItem orderItem = OrderItem.createOrderItem(item, item.getPrice(), amount);
         //주문 생성
         Order order = Order.createOrder(userData.get(), delivery, orderItem);
+        //주문 저장
+        orderRepository.save(order);
+        return order.getId();
+    }
+    @Transactional
+    public void addItemToCart(SiteUserDto user, Long itemId, int amount) {
+        //엔티티 조회
+        Optional<SiteUser> userData = userRepository.findByusername(user.getUsername());
+        Item item = itemRepository.findOne(itemId);
+        //주문상품 생성
+        OrderItem orderItem = OrderItem.createOrderItem(item, item.getPrice(), amount);
+        //주문 생성
+        Cart.addItem(userData.get(), orderItem);
+    }
+    @Transactional
+    public Long orderItem(SiteUserDto user, Cart cart) {
+        Optional<SiteUser> userData = userRepository.findByusername(user.getUsername());
+
+        //배송정보 생성
+        Delivery delivery = new Delivery();
+        delivery.setAddress(userData.get().getAddress());
+        delivery.setStatus(DeliveryStatus.READY);
+        //주문 생성
+        Order order = Order.createOrder(userData.get(), delivery, cart.getCartItems().toArray(new OrderItem[cart.getCartItems().size()]));
         //주문 저장
         orderRepository.save(order);
         return order.getId();
@@ -71,7 +95,6 @@ public class OrderService {
 
      public List<Order> findOrders(OrderSearch orderSearch) {
          return orderRepository.findAllByString(orderSearch);
-
      }
 
 }

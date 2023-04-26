@@ -31,6 +31,9 @@ public class Order {
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> orderItems = new ArrayList<>();
 
+//    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
+//    private OrderItem item;
+
     @OneToOne(fetch = LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "delivery_id")
     private Delivery delivery;
@@ -43,8 +46,8 @@ public class Order {
     @JoinColumn(name = "refund_id")
     private Refund refund;
 
-    private LocalDateTime orderDate;
-
+    @Column(name = "reg_date")
+    private LocalDateTime regDate;
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
@@ -65,15 +68,16 @@ public class Order {
     }
 
     //==생성 메서드==//
-    public static Order createOrder(SiteUser user, Delivery delivery, OrderItem... orderItems) {
+    public static Order createOrder(SiteUser user, Delivery delivery, OrderItem... orderItem){
         Order order = new Order();
         order.setMember(user);
         order.setDelivery(delivery);
-        for (OrderItem orderItem : orderItems) {
-            order.addOrderItem(orderItem);
+
+        for(OrderItem item : orderItem){
+            order.addOrderItem(item);
         }
         order.setStatus(OrderStatus.ORDER);
-        order.setOrderDate(LocalDateTime.now());
+        order.setRegDate(LocalDateTime.now());
         return order;
     }
 
@@ -96,6 +100,10 @@ public class Order {
      * 전체 주문 가격 조회
      */
     public int getTotalPrice() {
-        return orderItems.stream().mapToInt(OrderItem::getTotalPrice).sum();
+        int totalPrice = 0;
+        for (OrderItem orderItem : orderItems) {
+            totalPrice += orderItem.getTotalPrice();
+        }
+        return totalPrice;
     }
 }

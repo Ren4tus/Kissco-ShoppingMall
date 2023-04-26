@@ -9,9 +9,13 @@ public class HomeController {
     @RequestMapping("/")
     public String home() {
         log.info("home controller");
-        return "home";
+        return "order/orderPage";
     }
-
+    @RequestMapping("/admin")
+    public String adminPage() {
+        log.info("ADMIN PAGE");
+        return "adminPage";
+    }
     @RequestMapping("/test")
     public String test() {
         log.info("test home");

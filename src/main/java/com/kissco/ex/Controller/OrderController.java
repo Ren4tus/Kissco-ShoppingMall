@@ -36,12 +36,6 @@ public class OrderController {
         model.addAttribute("items", items);
         return "order/orderForm";
     }
-//    @PostMapping(value = "/order")
-//    public String order(@RequestParam("memberId") Long memberId,
-//                        @RequestParam("itemId") Long itemId, @RequestParam("count") int count) {
-//        orderService.order(memberId, itemId, count);
-//        return "redirect:/orders";
-//    }
 
     @GetMapping(value = "/orders")
     public String orderList(@ModelAttribute("orderSearch") OrderSearch
@@ -54,8 +48,21 @@ public class OrderController {
     @GetMapping(value = "/orders/book")
     public String orderBookList(@ModelAttribute("orderSearch") OrderSearch
                                     orderSearch, Model model) {
-//        List<Order> orders = orderService.findOrders(orderSearch);
-        List<Item> items = itemService.findItems();
+        List<Item> items = itemService.findBooks();
+        model.addAttribute("items", items);
+        return "order/orderPage";
+    }
+    @GetMapping(value = "/orders/movie")
+    public String orderMovieList(@ModelAttribute("orderSearch") OrderSearch
+                                        orderSearch, Model model) {
+        List<Item> items = itemService.findMovies();
+        model.addAttribute("items", items);
+        return "order/orderPage";
+    }
+    @GetMapping(value = "/orders/album")
+    public String orderAlbumList(@ModelAttribute("orderSearch") OrderSearch
+                                        orderSearch, Model model) {
+        List<Item> items = itemService.findAlbums();
         model.addAttribute("items", items);
         return "order/orderPage";
     }
@@ -77,5 +84,13 @@ public class OrderController {
         SiteUserDto siteUserDto = this.userService.getUser(principal.getName());
         orderService.orderItem(siteUserDto, itemId, quantity);
         return "redirect:/orders";
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/cart")
+    public String cart(Model model, Principal principal) {
+        SiteUserDto siteUserDto = this.userService.getUser(principal.getName());
+        model.addAttribute("cart", siteUserDto.getCart());
+        return "order/cartPage";
     }
 }

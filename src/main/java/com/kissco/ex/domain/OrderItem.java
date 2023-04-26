@@ -29,6 +29,11 @@ public class OrderItem {
     @JoinColumn(name = "order_id")
     private Order order;
 
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "cart_id")
+    private Cart cart;
+
+
     private int orderPrice;
     private int count;
 

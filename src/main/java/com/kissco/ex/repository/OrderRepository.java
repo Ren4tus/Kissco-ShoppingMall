@@ -1,5 +1,6 @@
 package com.kissco.ex.repository;
 
+import com.kissco.ex.domain.Cart;
 import com.kissco.ex.domain.Order;
 import com.kissco.ex.domain.OrderSearch;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,9 @@ public class OrderRepository {
 
     public void save(Order order) {
         em.persist(order);
+    }
+    public void save(Cart cart) {
+        em.persist(cart);
     }
     public Order findOne(Long id) {
         return em.find(Order.class, id);

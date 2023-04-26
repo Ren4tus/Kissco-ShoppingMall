@@ -51,5 +51,13 @@ public class ItemService {
         return itemRepository.findOne(itemId);
     }
 
-
+    public List<Item> findBooks() {
+        return itemRepository.findBooks();
+    }
+    public List<Item> findAlbums() {
+        return itemRepository.findAlbums();
+    }
+    public List<Item> findMovies() {
+        return itemRepository.findMovies();
+    }
 }

@@ -19,9 +19,10 @@
         <div class="text-center text-white">
             <h1 class="display-4 fw-bolder">Kissco Shop</h1>
             <p class="lead fw-normal text-white-50 mb-0">
-                <a th:attr="href=@{orders/book}" class="hover-effect"><span>Book</span></a> |
-                <a th:attr="href=@{orders/album}" class="hover-effect"><span>Album</span></a> |
-                <a th:attr="href=@{orders/movie}" class="hover-effect"><span>Movie</span></a>
+                <a th:attr="href=@{/orders}" class="hover-effect"><span>All</span></a> |
+                <a th:attr="href=@{/orders/book}" class="hover-effect"><span>Book</span></a> |
+                <a th:attr="href=@{/orders/album}" class="hover-effect"><span>Album</span></a> |
+                <a th:attr="href=@{/orders/movie}" class="hover-effect"><span>Movie</span></a>
             </p>
         </div>
     </div>
@@ -43,8 +44,10 @@
                     <div class="card h-100">
                     <!-- Product image-->
                     <div style="width: 100%; height: 0; padding-bottom: 75%; position: relative;">
+<!--                        <img class="card-img-top" th:src="@{'/files/' + ${item.imagePath}}" alt="..." style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;"/>-->
+                        <img class="card-img-top" th:if="${item.imagePath != null}" th:src="@{'/files/' + ${item.imagePath}}" alt="..." style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;"/>
+                        <img class="card-img-top" th:unless="${item.imagePath != null}" th:src="@{img/No_Image_Available.jpg}" alt="..." style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;"/>
 
-                        <img class="card-img-top" th:src="@{'/files/' + ${item.imagePath}}" alt="..." style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;"/>
                     </div>
                     <!-- Product details-->
                     <div class="card-body p-4">
@@ -52,7 +55,7 @@
                             <!-- Product name-->
                             <h5 class="fw-bolder" th:text="${item.name}"></h5>
                             <!-- Product price-->
-                            <h5 class="fw-bolder" th:text="|₩${item.price}|"></h5>
+                            <h5 th:text="|₩${item.price}|"></h5>
                         </div>
                     </div>
                     <!-- Product actions-->
@@ -68,7 +71,7 @@
                     <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
                     <!-- Product image-->
                     <div style="width: 100%; height: 0; padding-bottom: 75%; position: relative;">
-                        <img class="card-img-top" src="p2.jpg" alt="..." style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;"/>
+                        <img class="card-img-top" src="img/No_Image_Available.jpg" alt="..." style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;"/>
                     </div>
                     <!-- Product details-->
                     <div class="card-body p-4">
