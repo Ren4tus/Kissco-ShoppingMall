@@ -30,6 +30,7 @@ public class ItemController {
                 item = Book.builder()
                         .name(form.getName())
                         .price(form.getPrice())
+                        .content(form.getContent())
                         .stockQuantity(form.getStockQuantity())
                         .author(form.getAuthor())
                         .isbn(form.getIsbn())
@@ -39,6 +40,7 @@ public class ItemController {
                 item = Album.builder()
                         .name(form.getName())
                         .price(form.getPrice())
+                        .content(form.getContent())
                         .stockQuantity(form.getStockQuantity())
                         .artist(form.getArtist())
                         .genre(form.getGenre())
@@ -48,6 +50,7 @@ public class ItemController {
                 Movie movie = Movie.builder()
                         .name(form.getName())
                         .price(form.getPrice())
+                        .content(form.getContent())
                         .stockQuantity(form.getStockQuantity())
                         .director(form.getDirector())
                         .distributor(form.getDistributor())
@@ -74,28 +77,35 @@ public class ItemController {
      * 상품 수정 폼
      */
     @GetMapping(value = "/items/{itemId}/edit")
-    public String updateItemForm(@PathVariable("itemId") Long itemId, Model
-            model) {
-//        Book item = (Book) itemService.findOne(itemId);
-//        BookForm form = new BookForm();
-//        form.setId(item.getId());
-//        form.setName(item.getName());
-//        form.setPrice(item.getPrice());
-//        form.setStockQuantity(item.getStockQuantity());
-//        form.setAuthor(item.getAuthor());
-//        form.setIsbn(item.getIsbn());
-//        model.addAttribute("form", form);
+    public String updateItemForm(@PathVariable("itemId") Long itemId, Model model) {
+        Item item = itemService.findOne(itemId);
+        ItemForm form = new ItemForm();
+        form.setId(item.getId());
+        form.setName(item.getName());
+        form.setPrice(item.getPrice());
+        form.setStockQuantity(item.getStockQuantity());
+        model.addAttribute("form", form);
         return "items/updateItemForm";
     }
 
     /**
      * 상품 수정
      */
-//    @PostMapping(value = "/items/{itemId}/edit")
-//    public String updateItem(@PathVariable Long itemId, @ModelAttribute("form")
-//    BookForm form) {
-//        itemService.updateItem(itemId, form.getName(), form.getPrice(),
-//                form.getStockQuantity());
-//        return "redirect:/items";
-//    }
+    @PostMapping(value = "/items/{itemId}/edit")
+    public String updateItem(@PathVariable Long itemId, @ModelAttribute("form")
+    ItemForm form) {
+        itemService.updateItem(itemId, form.getName(), form.getPrice(),
+                form.getStockQuantity());
+        return "redirect:/items";
+    }
+
+    @GetMapping(value = "/items/{itemId}/delete")
+    public String deleteItem(@PathVariable("itemId") Long itemId, Model model) {
+        itemService.deleteById(itemId);
+        List<Item> items = itemService.findItems();
+        model.addAttribute("items", items);
+        return "redirect:/items";
+    }
+
+
 }

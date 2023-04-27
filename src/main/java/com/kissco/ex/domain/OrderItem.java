@@ -1,6 +1,7 @@
 package com.kissco.ex.domain;
 
 import com.kissco.ex.domain.item.Item;
+import com.kissco.ex.user.SiteUser;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,8 +31,12 @@ public class OrderItem {
     private Order order;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "cart_id")
-    private Cart cart;
+    @JoinColumn(name = "user_id")
+    private SiteUser user;
+
+//    @ManyToOne(fetch = LAZY)
+//    @JoinColumn(name = "cart_id")
+//    private Cart cart;
 
 
     private int orderPrice;

@@ -8,21 +8,20 @@
 <div class="container">
     <div th:replace="fragments/bodyHeader :: bodyHeader" />
     <div class="jumbotron">
-        <h1>KISSCO SHOP</h1>
-        <p class="lead">회원 기능</p>
+        <h1>CONTROL PANEL</h1>
         <p>
-            <a class="btn btn-lg btn-secondary" href="/members/new">회원 가입</a>
-            <a class="btn btn-lg btn-secondary" href="/members">회원 목록</a>
+            <a class="btn btn-lg btn-secondary" style="background-color: pink; border-color: transparent" href="/orders">돌아가기</a>
+            <a class="btn btn-lg btn-secondary" href="/orderList">주문 조회</a>
+        </p>
+        <p class="lead"></p>
+        <p>
+            <a class="btn btn-lg btn-info" th:href="@{/question/create}">공지 등록</a>
+            <a class="btn btn-lg btn-info" th:href="@{/question/list}">공지 조회</a>
         </p>
         <p class="lead">상품 기능</p>
         <p>
             <a class="btn btn-lg btn-dark" href="/items/new">상품 등록</a>
-            <a class="btn btn-lg btn-dark" href="/items">상품 목록</a>
-        </p>
-        <p class="lead">주문 기능</p>
-        <p>
-            <a class="btn btn-lg btn-info" href="/order">상품 주문</a>
-            <a class="btn btn-lg btn-info" href="/orders">주문 내역</a>
+            <a class="btn btn-lg btn-dark" href="/items">상품 조회</a>
         </p>
     </div>
     <div th:replace="fragments/footer :: footer" />

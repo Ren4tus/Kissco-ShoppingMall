@@ -54,4 +54,9 @@ public class UserController {
     public String login() {
         return "ssb/login_form";
     }
+
+    @GetMapping("/test2")
+    public String testLink(UserCreateForm userCreateForm){
+        return "members/my_page";
+    }
 }

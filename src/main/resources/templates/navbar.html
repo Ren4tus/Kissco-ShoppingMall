@@ -5,7 +5,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
                 <li class="nav-item"><a class="nav-link active" aria-current="page" href="/orders">Home</a></li>
-                <li class="nav-item"><a class="nav-link" href="question/list">Notice</a></li>
+                <li class="nav-item"><a class="nav-link" href="/question/list">Notice</a></li>
 <!--                <li class="nav-item dropdown">-->
 <!--                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Shop</a>-->
 <!--                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">-->
@@ -16,14 +16,17 @@
 <!--                    </ul>-->
 <!--                </li>-->
             </ul>
-            <form class="d-flex">
+            <form class="d-flex" method="get" action="/cartPage">
+                <a class="btn btn-outline-dark" style="margin-left: 15px; border-color: blue" sec:authorize="hasRole('ADMIN')" th:href="@{/admin}">Manage</a>
                 <a class="btn btn-outline-dark" style="margin-left: 15px;" th:href="@{/user/signup}">SignUp</a>
                 <a class="btn btn-outline-dark" style="margin-left: 15px;" sec:authorize="isAnonymous()" th:href="@{/user/login}">Login</a>
                 <a class="btn btn-outline-dark" style="margin-left: 15px;" sec:authorize="isAuthenticated()" th:href="@{/user/logout}">Logout</a>
-                <button class="btn btn-outline-dark" type="submit" style="margin-left: 15px;">
+                <button class="btn btn-outline-dark" type="submit" sec:authorize="isAuthenticated()" style="margin-left: 15px;">
                     <i class="bi-cart-fill me-1"></i>
                     Cart
-                    <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
+<!--                    <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>-->
+                    <span class="badge bg-dark text-white ms-1 rounded-pill" th:text="${#session.getAttribute('cartCount')}"></span>
+
                 </button>
             </form>
         </div>

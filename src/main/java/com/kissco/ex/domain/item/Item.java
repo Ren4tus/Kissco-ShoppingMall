@@ -33,8 +33,6 @@ public abstract class Item {
     private LocalDateTime regDate;
     private String imagePath;
 
-//    @OneToMany(mappedBy = "item")
-//    private List<ItemImage> images = new ArrayList<ItemImage>();
     @ManyToMany(mappedBy = "items")
     private List<Category> categories = new ArrayList<Category>();
     //==비즈니스 로직==//

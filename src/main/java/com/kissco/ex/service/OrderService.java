@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Optional;
 
@@ -60,17 +61,21 @@ public class OrderService {
         return order.getId();
     }
     @Transactional
-    public void addItemToCart(SiteUserDto user, Long itemId, int amount) {
+    public int addItemToCart(SiteUserDto user, Long itemId, int amount) {
         //엔티티 조회
         Optional<SiteUser> userData = userRepository.findByusername(user.getUsername());
         Item item = itemRepository.findOne(itemId);
         //주문상품 생성
         OrderItem orderItem = OrderItem.createOrderItem(item, item.getPrice(), amount);
+
         //주문 생성
-        Cart.addItem(userData.get(), orderItem);
+        userData.get().addCartItem(orderItem);
+        userRepository.save(userData.get());
+
+        return userData.get().getCartCount();
     }
     @Transactional
-    public Long orderItem(SiteUserDto user, Cart cart) {
+    public void orderItem(SiteUserDto user, List<OrderItem> cart){
         Optional<SiteUser> userData = userRepository.findByusername(user.getUsername());
 
         //배송정보 생성
@@ -78,10 +83,13 @@ public class OrderService {
         delivery.setAddress(userData.get().getAddress());
         delivery.setStatus(DeliveryStatus.READY);
         //주문 생성
-        Order order = Order.createOrder(userData.get(), delivery, cart.getCartItems().toArray(new OrderItem[cart.getCartItems().size()]));
-        //주문 저장
-        orderRepository.save(order);
-        return order.getId();
+        for(OrderItem orderItem : cart) {
+            Order order = Order.createOrder(userData.get(), delivery, orderItem);
+            //주문 저장
+            orderRepository.save(order);
+        }
+        userData.get().getCartItems().clear();
+        userRepository.save(userData.get());
     }
     /** 주문 취소 */
     @Transactional

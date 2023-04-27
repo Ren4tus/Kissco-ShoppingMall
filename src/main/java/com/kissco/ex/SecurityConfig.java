@@ -1,5 +1,6 @@
 package com.kissco.ex;
 
+import com.kissco.ex.user.CustomAuthenticationSuccessHandler;
 import com.kissco.ex.user.UserSecurityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -11,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.header.writers.frameoptions.XFrameOptionsHeaderWriter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
@@ -32,9 +34,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .csrf().disable();
 //    }
     private final UserSecurityService userSecurityService;
+    private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        http.cors().and();
+        http.csrf().disable();
         // 로그인 하지 않아도 모든 페이지 접근 허용
         http.authorizeRequests().antMatchers("/**").permitAll()
                 .and()
@@ -50,6 +55,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 .loginPage("/user/login")
                 .defaultSuccessUrl("/orders")
+                .successHandler(customAuthenticationSuccessHandler)
                 .and()
                 .logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/user/logout"))
@@ -66,9 +72,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth
-                .userDetailsService(userSecurityService).passwordEncoder(passwordEncoder())
-                .and()
-                .inMemoryAuthentication()
-                .withUser("admin").password(passwordEncoder().encode("admin")).roles("ADMIN");
+                .userDetailsService(userSecurityService).passwordEncoder(passwordEncoder());
+//                .and()
+//                .inMemoryAuthentication()
+//                .withUser("admin").password(passwordEncoder().encode("admin")).roles("ADMIN");
     }
 }

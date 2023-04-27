@@ -8,20 +8,20 @@
     <table class="table table-striped">
       <thead>
       <tr>
-        <th>#</th>
-        <th>이름</th>
-        <th>도시</th>
-        <th>주소</th>
-        <th>우편번호</th>
+        <th>주문 번호</th>
+        <th>유저 이름</th>
+        <th>상품명</th>
+        <th>주문수량</th>
+        <th>총 금액</th>
       </tr>
       </thead>
       <tbody>
-      <tr th:each="member : ${members}">
-        <td th:text="${member.id}"></td>
-        <td th:text="${member.name}"></td>
-        <td th:text="${member.address?.city}"></td>
-        <td th:text="${member.address?.street}"></td>
-        <td th:text="${member.address?.zipcode}"></td>
+      <tr th:each="order : ${orders}">
+        <td th:text="${order.id}"></td>
+        <td th:text="${order.username}"></td>
+        <td th:text="${order.productName}"></td>
+        <td th:text="${order.orderCount}"></td>
+        <td th:text="${order.totalPrice}"></td>
       </tr>
       </tbody>
     </table>

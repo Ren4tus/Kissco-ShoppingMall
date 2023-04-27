@@ -63,4 +63,10 @@ public class ItemRepository {
                 .fetch();
 
     }
+
+    public void deleteById(Long id) {
+        Item item = em.find(Item.class, id);
+        if(item != null)
+            em.remove(item);
+    }
 }

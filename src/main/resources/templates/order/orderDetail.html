@@ -8,9 +8,9 @@
     <div class="container px-4 px-lg-5 my-5">
         <div class="row gx-4 gx-lg-5 align-items-center">
             <div class="col-md-6">
-                <img th:if="${item.imagePath != null}" class="card-img-top mb-5 mb-md-0"
+                <img th:if="${item.imageName != null and item.imageName != ''}" class="card-img-top mb-5 mb-md-0"
                      th:src="@{'/files/' + ${item.imageName}}" alt="..."/>
-                <img th:unless="${item.imagePath != null}" class="card-img-top mb-5 mb-md-0"
+                <img th:unless="${item.imageName != null and item.imageName != ''}" class="card-img-top mb-5 mb-md-0"
                      th:src="@{img/No_Image_Available.jpg}" alt="..."/>
             </div>
             <div class="col-md-6">
@@ -40,7 +40,7 @@
     <script th:inline="javascript">
         $(document).ready(function () {
             $('#purchaseButton').click(function () {
-                console.log('addToCartButton clicked');
+                console.log('purchaseButton clicked');
                 let quantity = $('#inputQuantity').val(); // 입력된 수량을 가져옴
                 let itemId = [[${item.id}]];
                 var header = $("meta[name='_csrf_header']").attr('content');
@@ -61,7 +61,27 @@
                 });
             });
 
-
+            $('#addToCartButton').click(function () {
+                console.log('addToCartButton clicked');
+                let quantity = $('#inputQuantity').val(); // 입력된 수량을 가져옴
+                let itemId = [[${item.id}]];
+                var header = $("meta[name='_csrf_header']").attr('content');
+                var token = $("meta[name='_csrf']").attr('content');
+                $.ajax({
+                    url: '/addCart',
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader(header, token);
+                    },
+                    type: 'POST',
+                    data: {quantity: quantity, itemId: itemId},
+                    success: function (response) {
+                        window.location.href = '/orders';
+                    },
+                    error: function (xhr) {
+                        // AJAX 요청이 실패하면 오류를 처리하는 코드
+                    }
+                });
+            });
         });
     </script>
 </section>

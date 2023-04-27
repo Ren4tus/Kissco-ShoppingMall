@@ -50,6 +50,10 @@ public class ItemService {
     public Item findOne(Long itemId) {
         return itemRepository.findOne(itemId);
     }
+    @Transactional
+    public void deleteById(Long id) {
+        itemRepository.deleteById(id);
+    }
 
     public List<Item> findBooks() {
         return itemRepository.findBooks();

@@ -2,6 +2,7 @@ package com.kissco.ex.Controller;
 
 import com.kissco.ex.Controller.dto.ItemForm;
 import com.kissco.ex.domain.Order;
+import com.kissco.ex.domain.OrderItem;
 import com.kissco.ex.domain.OrderSearch;
 import com.kissco.ex.domain.Member;
 import com.kissco.ex.domain.item.Item;
@@ -18,6 +19,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.security.Principal;
 import java.util.List;
 @Controller
@@ -87,10 +90,37 @@ public class OrderController {
     }
 
     @PreAuthorize("isAuthenticated()")
-    @GetMapping("/cart")
-    public String cart(Model model, Principal principal) {
+    @PostMapping("/addCart")
+    public String addCart(@RequestParam("quantity") int quantity,
+                          @RequestParam("itemId") Long itemId,
+                          Principal principal, HttpServletRequest request) {
         SiteUserDto siteUserDto = this.userService.getUser(principal.getName());
-        model.addAttribute("cart", siteUserDto.getCart());
+        HttpSession session = request.getSession();
+        int cartCount = orderService.addItemToCart(siteUserDto, itemId, quantity);
+        session.setAttribute("cartCount", cartCount);
+//        model.addAttribute("cart", siteUserDto.getCart());
+        return "redirect:/orders";
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/cartPage")
+    public String cartPage(Model model, Principal principal) {
+
+        List<OrderItem> cart = this.userService.getCart(principal.getName());
+        int totalPrice = this.userService.getTotalPrice(principal.getName());
+        model.addAttribute("cart", cart);
+        model.addAttribute("totalPrice", totalPrice);
         return "order/cartPage";
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/buyCart")
+    public String buyCart(Principal principal, HttpServletRequest request) {
+        SiteUserDto siteUserDto = this.userService.getUser(principal.getName());
+        List<OrderItem> cart = this.userService.getCart(principal.getName());
+        orderService.orderItem(siteUserDto, cart);
+        HttpSession session = request.getSession();
+        session.setAttribute("cartCount", 0);
+        return "redirect:/orders";
     }
 }

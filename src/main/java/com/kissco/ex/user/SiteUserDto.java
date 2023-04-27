@@ -1,16 +1,23 @@
 package com.kissco.ex.user;
 
-import com.kissco.ex.domain.Cart;
+import com.kissco.ex.domain.OrderItem;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
+import java.util.List;
 
 @Getter
 @Setter
-public class SiteUserDto {
+public class SiteUserDto{
     private Long id;
     private String username;
     private String password;
     private String email;
 
-    private Cart cart;
+    private List<OrderItem> orderItems;
+    private int cartCount;
+
 }

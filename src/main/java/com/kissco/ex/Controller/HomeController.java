@@ -9,7 +9,7 @@ public class HomeController {
     @RequestMapping("/")
     public String home() {
         log.info("home controller");
-        return "order/orderPage";
+        return "redirect:/orders";
     }
     @RequestMapping("/admin")
     public String adminPage() {
