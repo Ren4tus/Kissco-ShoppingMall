@@ -13,6 +13,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.persistence.criteria.*;
 import java.io.File;
@@ -24,7 +26,7 @@ import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
-public class QuestionService {
+public class QuestionService implements WebMvcConfigurer {
 
     private final QuestionRepository questionRepository;
 
@@ -75,7 +77,16 @@ public class QuestionService {
             throw new DataNotFoundException("question not found");
         }
     }
-    
+
+    String projectPath = "file:" + System.getProperty("user.home") + "/Documents/WEB/files/";
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        projectPath = projectPath.replace("\\", "/");
+                System.out.println("projectPath = " + projectPath);
+        registry.addResourceHandler("/", "/files/")
+                .addResourceLocations("classpath:/static/", projectPath);
+
+    }
     public QuestionDto create(String subject, String content, MultipartFile file, SiteUserDto user) throws Exception{
         QuestionDto questionDto = new QuestionDto();
         questionDto.setSubject(subject);
@@ -85,7 +96,7 @@ public class QuestionService {
 
 
         if(!file.isEmpty()) {
-//            String projectPath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\files";
+//            String projectPath = System.getProperty("user.dir") + "\src\main\resources\static\files";
             String projectPath = "C:/Users/lys/Documents/WEB/files";
             UUID uuid = UUID.randomUUID();
             String fileName = uuid + "_" + file.getOriginalFilename();

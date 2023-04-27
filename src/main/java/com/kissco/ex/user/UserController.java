@@ -1,17 +1,21 @@
 package com.kissco.ex.user;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
+import java.security.Principal;
 
 @RequiredArgsConstructor
 @Controller
+@Slf4j
 @RequestMapping("/user")
 public class UserController {
 
@@ -35,8 +39,9 @@ public class UserController {
         }
 
         try {
-            userService.create(userCreateForm.getUsername(), 
-                    userCreateForm.getEmail(), userCreateForm.getPassword1());
+            userService.create(userCreateForm.getId(),
+                    userCreateForm.getEmail(), userCreateForm.getPassword1(), userCreateForm.getName(),
+                    userCreateForm.getPhone(), userCreateForm.getDetail_address());
         }catch(DataIntegrityViolationException e) {
             e.printStackTrace();
             bindingResult.reject("signupFailed", "이미 등록된 사용자입니다.");
@@ -54,4 +59,17 @@ public class UserController {
     public String login() {
         return "ssb/login_form";
     }
+
+    @GetMapping("/mypage")
+    public String myPage(Model model, Principal principal, UserCreateForm userCreateForm) {
+
+        SiteUserDto siteUserDto = this.userService.getUser(principal.getName());
+
+        model.addAttribute("user", siteUserDto);
+
+        log.info(siteUserDto.getName());
+
+        return "members/my_page";
+    }
+
 }

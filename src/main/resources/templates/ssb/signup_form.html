@@ -8,8 +8,12 @@
     <form th:action="@{/user/signup}" th:object="${userCreateForm}" method="post">
         <nav th:replace="form_errors :: formErrorsFragment"></nav>
         <div class="mb-3">
-            <label for="username" class="form-label">사용자ID</label>
-            <input type="text" th:field="*{username}" class="form-control">
+            <label class="form-label" for="name">이름</label>
+            <input class="form-control" th:field="*{name}" type="text">
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="id">ID</label>
+            <input class="form-control" th:field="*{id}" type="text">
         </div>
         <div class="mb-3">
             <label for="password" class="form-label">비밀번호</label>
@@ -22,6 +26,14 @@
         <div class="mb-3">
             <label for="email" class="form-label">이메일</label>
             <input type="email" th:field="*{email}" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="detail_address">상세주소</label>
+            <input class="form-control" th:field="*{detail_address}" type="text">
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="phone">휴대폰 번호</label>
+            <input class="form-control" th:field="*{phone}" type="text">
         </div>
         <button type="submit" class="btn btn-primary">회원가입</button>
     </form>

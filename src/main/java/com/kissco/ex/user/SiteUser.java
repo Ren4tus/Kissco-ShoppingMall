@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +17,7 @@ import java.util.List;
 @Entity
 public class SiteUser {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue()
     @Column(name = "user_id")
     private Long id;
 
@@ -30,6 +31,23 @@ public class SiteUser {
     @NotNull
     @Column(unique = true)
     private String email;
+
+    @NotNull
+    @Column(unique = true)
+    private String detail_address;
+
+    @NotNull
+    @Column(unique = true)
+    private String name;
+
+    @NotNull
+    @Column(unique = true)
+    private String phone;
+
+    @Column(name = "reg_date")
+    private LocalDateTime regDate;
+
+
     @Embedded
     private Address address;
     @OneToMany(mappedBy = "user")

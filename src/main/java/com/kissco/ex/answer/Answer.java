@@ -14,10 +14,10 @@ import java.util.Set;
 @Entity
 public class Answer {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue()
+    @Column(name = "answer_id")
     private Integer id;
 
-    @Column(columnDefinition = "TEXT")
     private String content;
 
     private LocalDateTime createDate;
@@ -26,6 +26,7 @@ public class Answer {
     private Question question;
     
     @ManyToOne
+    @JoinColumn(name = "question_id")
     private SiteUser author;
     
     private LocalDateTime modifyDate;
