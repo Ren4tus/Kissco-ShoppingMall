@@ -33,7 +33,7 @@ public class AnswerService {
         answerDto.setAuthor(author);
         Answer answer = of(answerDto);
         answer = this.answerRepository.save(answer);
-        answerDto.setId(answer.getId());
+        answerDto.setId(Math.toIntExact(answer.getId()));
         return answerDto;
     }
     

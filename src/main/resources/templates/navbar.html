@@ -20,6 +20,7 @@
                 <a class="btn btn-outline-dark" style="margin-left: 15px; border-color: blue" sec:authorize="hasRole('ADMIN')" th:href="@{/admin}">Manage</a>
                 <a class="btn btn-outline-dark" style="margin-left: 15px;" th:href="@{/user/signup}">SignUp</a>
                 <a class="btn btn-outline-dark" style="margin-left: 15px;" sec:authorize="isAnonymous()" th:href="@{/user/login}">Login</a>
+                <a class="btn btn-outline-dark" sec:authorize="isAuthenticated()" style="margin-left: 15px;" th:href="@{/user/mypage}">MyPage</a>
                 <a class="btn btn-outline-dark" style="margin-left: 15px;" sec:authorize="isAuthenticated()" th:href="@{/user/logout}">Logout</a>
                 <button class="btn btn-outline-dark" type="submit" sec:authorize="isAuthenticated()" style="margin-left: 15px;">
                     <i class="bi-cart-fill me-1"></i>

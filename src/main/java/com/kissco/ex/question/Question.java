@@ -15,23 +15,22 @@ import java.util.Set;
 @Entity
 public class Question {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue()
+    @Column(name = "question_id")
     private Integer id;
 
-    @Column(length = 200)
     private String subject;
 
-    @Column(columnDefinition = "TEXT")
     private String content;
 
     private LocalDateTime createDate;
 
-    @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "question")
     private List<Answer> answerList;
-    
+
     @ManyToOne
     private SiteUser author;
-    
+
     private LocalDateTime modifyDate;
 
     private String filename;
