@@ -8,7 +8,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,7 +33,7 @@ public class UserService {
         user.setName(name);
         user.setPhone(phone);
         user.setDetail_address(detail_address);
-        user.setRegDate(LocalDateTime.now());
+        // user.setRegDate(LocalDateTime.now());
         user.setCartCount(0);
         user.setPassword(passwordEncoder.encode(password));
         this.userRepository.save(user);

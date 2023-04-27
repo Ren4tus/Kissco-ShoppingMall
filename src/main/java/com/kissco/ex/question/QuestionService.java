@@ -97,7 +97,8 @@ public class QuestionService implements WebMvcConfigurer {
 
         if(!file.isEmpty()) {
 //            String projectPath = System.getProperty("user.dir") + "\src\main\resources\static\files";
-            String projectPath = "C:/Users/lys/Documents/WEB/files";
+            // String projectPath = "C:/Users/lys/Documents/WEB/files";
+            String projectPath = System.getProperty("user.home") + "/Documents/WEB/files";
             UUID uuid = UUID.randomUUID();
             String fileName = uuid + "_" + file.getOriginalFilename();
             File saveFile = new File(projectPath, fileName);
